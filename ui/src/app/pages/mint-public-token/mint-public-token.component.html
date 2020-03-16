@@ -24,23 +24,36 @@
         <div class="box-body">
           <div class="row form-group">
             <div class="col-md-12">
-              <label for="name">Enter Token URI</label>
-              <input
-                type="text"
-                autoFocus
-                class="form-control text-box"
-                [(ngModel)]="tokenURI"
-                (keydown)="$event.keyCode == 13 ? mintToken() : null"
-                placeholder="Please enter token URI"
-                required
-              />
+              <ng-select
+                  #select
+                  [items]="billDetails"
+                  class="custom"
+                  [virtualScroll]="true"
+
+                  [multiple]="true"
+                  [(ngModel)]="selectedBill"
+                  [maxSelectedItems]="1"
+                  placeholder="Please select Bill"
+                  style="width:50%;"
+              >
+                <ng-template ng-label-tmp let-item="item">
+                <span aria-hidden="true" class="ng-value-icon left" (click)="onRemove(item)"
+                >×</span
+                >
+                  <b>{{ item.docName }} </b> ({{ item.hash.slice(0, 20) }}...)&nbsp;
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-index="index">
+                  <b>{{ item.docName }}</b> ({{ item.hash.slice(0, 20) }}...)
+                </ng-template>
+              </ng-select>
+
             </div>
           </div>
           <div class="col-md-12">
             <div class="row">
               <button
                 class="btn btn-md btn-primary"
-                [disabled]="!tokenURI"
+                [disabled]="!selectedBill"
                 type="button"
                 (click)="mintToken()"
               >

@@ -98,7 +98,7 @@ services:
 
   ganache:
     image: trufflesuite/ganache-cli:latest
-    command: ganache-cli --accounts=10 --defaultBalanceEther=1000
+    command: ganache-cli --deterministic --networkId 5777 --accounts=10 --defaultBalanceEther=1000 -m "comic focus april diamond neutral fade path problem again seven nuclear million"
     ports:
       - 8545:8545
 

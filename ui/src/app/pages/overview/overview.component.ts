@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 import { UtilService } from '../../services/utils/util.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import {BillsApiService} from '../../services/bills/bills-api.service';
+
 /**
  * Overview component, which is used for rendering the overview page.
  * Here user can see the total count of ERC-20 tokens, ERC-20 token commitments, ERC-721 tokens and ERC-721 token commitments.
@@ -15,7 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   selector: 'app-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.css'],
-  providers: [AccountsApiService, UtilService]
+  providers: [AccountsApiService, UtilService, BillsApiService]
 })
 export class OverviewComponent extends Config implements OnInit {
   /**
@@ -97,9 +99,17 @@ export class OverviewComponent extends Config implements OnInit {
    */
   selectedTab = 'publictokens';
 
+  /**
+   * Bill details from billsApiService
+   */
+  billDetails: any;
+  curUser: any = {};
+  numBills = 0;
+
   constructor(
     private toastr: ToastrService,
     private accountService: AccountsApiService,
+    private billsService: BillsApiService,
     private utilService: UtilService,
     private route: ActivatedRoute,
     private router: Router
@@ -107,7 +117,7 @@ export class OverviewComponent extends Config implements OnInit {
     super('ERC-20');
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.getUser();
     this.getUserERC20AndERC721TokenCount();
     this.route
@@ -126,7 +136,8 @@ export class OverviewComponent extends Config implements OnInit {
           this.getTransactions('publictokens');
         }
       });
-
+    this.billsService.initTable();
+    //this.getBills();
   }
 
   /**
@@ -138,7 +149,7 @@ export class OverviewComponent extends Config implements OnInit {
     const nftBalance = this.accountService.getNFTBalance();
     Observable.forkJoin([coins, tokenCount, nftBalance]).subscribe(
       responseList  => {
-        console.log(responseList[2]);
+        console.log(responseList);
         this.count = responseList[1]['data'];
         this.coinCount =  responseList[0]['data']['balance'];
         this.ftName = responseList[0]['data']['name'];
@@ -150,9 +161,15 @@ export class OverviewComponent extends Config implements OnInit {
         localStorage.setItem('nftName', this.nftName);
         this.nftSymbol = responseList[2]['data']['nftSymbol'];
         localStorage.setItem('nftSymbol', this.nftSymbol);
-        console.log('this.count', this.count );
-        console.log('this.coinCount', this.coinCount);
+        // console.log('this.count', this.count );
+        // console.log('this.coinCount', this.coinCount);
         this.isRequesting = false;
+        if (this.billDetails != null) {
+          this.numBills = this.billDetails.length;
+        } else {
+          this.numBills = 0;
+        }
+
       },
       error => {
         this.isRequesting = false;
@@ -275,7 +292,7 @@ export class OverviewComponent extends Config implements OnInit {
   }
 
   /**
-   * Method to retrive all users.
+   * Method to retrive current user;
    *
    */
   getUser() {
@@ -283,11 +300,35 @@ export class OverviewComponent extends Config implements OnInit {
       data => {
         console.log('data', data);
         this.user = data['data'];
+        this.curUser = data['data'];
+        this.getUserBills();
       },
       error => {
         console.log('error in user get', error);
       }
     );
+  }
+
+
+  // getBillCount() {
+  //   const bills = this.billsService.getUserBills();
+  // }
+
+  getUserBills() {
+      this.billsService.getUserBills(this.user.name).subscribe(
+        data => {
+          // console.log('data', data);
+          this.billDetails = data['data'];
+          console.log(this.billDetails);
+        },
+        error => {
+          console.log('error in user get', error);
+        }
+      );
+  }
+
+  viewBill(cid: string) {
+    this.router.navigate(['/bill/view'], { queryParams: { selectedTab: 'publiccoins' } })
   }
 
 

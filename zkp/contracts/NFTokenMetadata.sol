@@ -54,8 +54,8 @@ contract NFTokenMetadata is
   constructor()
     public
   {
-    nftName = "EYToken";
-    nftSymbol= "EYT";
+    nftName = "TradeToken";
+    nftSymbol= "TrT";
     supportedInterfaces[0x5b5e139f] = true; // ERC721Metadata
   }
 

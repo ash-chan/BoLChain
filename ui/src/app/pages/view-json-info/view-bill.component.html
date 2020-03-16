@@ -1,0 +1,37 @@
+<app-nav> </app-nav>
+
+<div class="container overview">
+  <div class="row">
+    <div class="col-sm-12">
+      <nav class="mt-4" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/overview']">Overview</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">{{docName}}</li>
+        </ol>
+      </nav>
+      <div class="box">
+        <div class="box-header">
+          <div class="row">
+            <div class="col-sm-6">
+              <h3 class="">JSON Details of {{docName}}</h3>
+            </div>
+            <div class="col-sm-6">
+              <a class="btn btn-primary btn-list pull-right" [routerLink]="['/token/public/mint']"
+              >Verify </a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="col-sm-12">
+<!--            <div class="row">-->
+              <pre [innerHTML]="billJson | prettyprint"> </pre>
+<!--            </div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

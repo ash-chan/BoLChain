@@ -23,6 +23,11 @@ import { MintPublicCoinComponent } from '../pages/mint-public-coin/mint-public-c
 import { BurnPublicCoinComponent } from '../pages/burn-public-coin/burn-public-coin.component';
 import { SpendPublicCoinComponent } from '../pages/spend-public-coin/spend-public-coin.component';
 
+import { UploadBillComponent } from '../pages/upload-bill-of-lading/upload-bill.component';
+import { ParseBillComponent } from '../pages/parse-bill-of-lading/parse-bill.component';
+import { StoreBillComponent } from '../pages/store-bill-in-swarm/store-bill.component';
+import {ViewBillComponent} from '../pages/view-json-info/view-bill.component';
+
 export const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'createAccount', component: CreateAccountsComponent },
@@ -51,6 +56,12 @@ export const appRoutes: Routes = [
   { path: 'coin/public/mint', component: MintPublicCoinComponent, canActivate: [AuthService] },
   { path: 'coin/public/transfer', component: SpendPublicCoinComponent, canActivate: [AuthService] },
   { path: 'coin/public/burn', component: BurnPublicCoinComponent, canActivate: [AuthService] },
+
+  { path: 'bill/upload', component: UploadBillComponent, canActivate: [AuthService] },
+  { path: 'bill/parse', component: ParseBillComponent, canActivate: [AuthService] },
+  { path: 'bill/store', component: StoreBillComponent, canActivate: [AuthService] },
+  { path: 'bill/view/:cid', component: ViewBillComponent, canActivate: [AuthService] },
+
   { path: '**', redirectTo: '/login', pathMatch: 'full' },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];

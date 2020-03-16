@@ -27,11 +27,14 @@
   "dependencies": {
     "@angular-devkit/core": "^7.3.9",
     "@angular/animations": "^7.2.15",
+    "@angular/cdk": "^8.2.3",
     "@angular/common": "^7.2.15",
     "@angular/compiler": "^7.2.15",
     "@angular/core": "^7.2.15",
+    "@angular/flex-layout": "^9.0.0-beta.28",
     "@angular/forms": "^7.2.15",
     "@angular/http": "^7.2.15",
+    "@angular/material": "^8.2.3",
     "@angular/platform-browser": "^7.2.15",
     "@angular/platform-browser-dynamic": "^7.2.15",
     "@angular/router": "^7.2.15",
@@ -42,13 +45,14 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
     "ng2-completer": "^2.0.8",
+    "ng2-file-upload": "^1.4.0",
     "ng2-simple-global": "^1.2.5",
     "ng2-smart-table": "^1.4.0",
     "ngx-toastr": "^10.0.4",
     "popper.js": "^1.12.3",
     "rxjs": "^6.5.2",
-    "zone.js": "^0.8.19",
-    "rxjs-compat": "^6.0.0-rc.0"
+    "rxjs-compat": "^6.0.0-rc.0",
+    "zone.js": "^0.8.19"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.13.9",

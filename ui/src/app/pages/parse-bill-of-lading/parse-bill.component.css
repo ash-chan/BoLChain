@@ -1,0 +1,4 @@
+.table tr.highlighted td {
+  background-color:#123456 !important;
+  color: white;
+}

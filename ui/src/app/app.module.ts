@@ -40,6 +40,12 @@ import { MintPublicCoinComponent } from './pages/mint-public-coin/mint-public-co
 import { BurnPublicCoinComponent } from './pages/burn-public-coin/burn-public-coin.component';
 import { SpendPublicCoinComponent } from './pages/spend-public-coin/spend-public-coin.component';
 import { AppAutoFocusDirective } from './shared/autofocus.directive';
+import { FileUploadModule } from 'ng2-file-upload';
+import { UploadBillComponent } from './pages/upload-bill-of-lading/upload-bill.component';
+import { ParseBillComponent } from './pages/parse-bill-of-lading/parse-bill.component';
+import { StoreBillComponent } from './pages/store-bill-in-swarm/store-bill.component';
+import {ViewBillComponent} from './pages/view-json-info/view-bill.component';
+import {PrettyPrintPipe} from './pages/view-json-info/pretty-print.pipe';
 
 
 /**
@@ -73,7 +79,13 @@ import { AppAutoFocusDirective } from './shared/autofocus.directive';
     CustomSelectionComponent,
     CustomTextComponent,
     UserProfileComponent,
-    AppAutoFocusDirective
+    AppAutoFocusDirective,
+    UploadBillComponent,
+    ParseBillComponent,
+    StoreBillComponent,
+    ViewBillComponent,
+    PrettyPrintPipe,
+
   ],
   entryComponents: [
     CustomSelectionComponent,
@@ -97,8 +109,8 @@ import { AppAutoFocusDirective } from './shared/autofocus.directive';
       closeButton: true,
       tapToDismiss: true
     }),
-    NgSelectModule
-
+    NgSelectModule,
+    FileUploadModule,
   ],
 
   providers: [

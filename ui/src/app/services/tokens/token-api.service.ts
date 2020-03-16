@@ -197,6 +197,8 @@ export class TokenApiService {
       .pipe(tap(data => console.log(`Token minted `)), catchError(this.handleError('mintNFToken', [])));
   }
 
+
+
   /**
    * Method to initiate a HTTP request to get all ERC-721 tokens.
    *

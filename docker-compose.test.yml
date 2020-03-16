@@ -100,6 +100,14 @@ services:
     networks:
       - test_net
 
+#  ganache_test:
+#    image: trufflesuite/ganache-cli:latest
+#    command: ganache-cli -p 7545 --accounts=10 --defaultBalanceEther=1000 -m "whisper predict hurdle cover brass bonus swing void text burst alien trigger"
+#    ports:
+#      - 8546:7545
+#    networks:
+#      - test_net
+
   database_test:
     build:
       context: ./database
