@@ -1,3 +1,8 @@
+# BoLChain
+
+BoLChain is an extension built upon EY Nightfall that provides an additional functionality for tokenizing Bill of Ladings. It relies heavily on the work of Nightfall for privacy-preserving transactins through zero-knowledge proofs.
+
+
 # Nightfall
 
 Nightfall integrates a set of smart contracts and microservices, and the ZoKrates zk-snark toolkit,
