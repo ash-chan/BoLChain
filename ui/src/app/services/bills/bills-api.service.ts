@@ -17,6 +17,7 @@ const HASH_JSON_URL = 'http://localhost:4000/swarm/hash-json';
 const UPDATE_DB_WITH_HASH_URL = 'http://localhost:4000/storage/update-with-hash';
 const STORE_IN_IPFS_URL = 'http://localhost:4000/ipfs/add-json';
 const RETRIEVE_FROM_IPFS_URL = 'http://localhost:4000/ipfs/show-json';
+const CALCULATE_JSON_HASH_URL = 'http://localhost:4000/ipfs/sha256';
 
 /**
  * Token API services, which accomodated all ERC-721 related methods.
@@ -198,6 +199,60 @@ export class BillsApiService {
         })
       );
   }
+
+  getCidFromId(tokenId) {
+    return this.http.get(config.database.root + 'nft/' + tokenId)
+      .pipe(tap(data => {
+          console.log(data);
+          console.log("getCIDfromID done");
+        }),
+        catchError(err => {
+          console.log('Unable to get CID', err);
+          return err;
+        })
+      );
+  }
+
+  getTokenById(tokenId, cidToView) {
+    return this.http.get(config.database.root + 'nft/' + tokenId)
+      .pipe(tap(data => {
+          console.log("getTokenbyId done");
+        }),
+        catchError(err => {
+          console.log('Unable to calculate BoL Hash', err);
+          return err;
+        })
+      );
+
+    // let currentNFT = this.http.get(config.database.root + tokenId)
+    //   .subscribe(nftInfo => {
+    //     console.log(nftInfo);
+    //     let tokenuriDataIntegrity = nftInfo.data.uriDataIntegrity;
+    //     if (hashToCheck === tokenuriDataIntegrity) {
+    //       console.log('123')
+    //       return true;
+    //     } else {
+    //       return false;
+    //     }
+    //   });
+  }
+
+  calculateuriDataIntegrity(cidToView: string) {
+    // this.retrieveFromIpfs(cidToView)
+    //   .subscribe(bolJson => {
+    //     let billString = JSON.stringify(bolJson);
+      // });
+    return this.http.get(CALCULATE_JSON_HASH_URL + '/' + cidToView)
+      .pipe(tap(data => {
+          console.log("calculateuriDataIntegrity done");
+        }),
+        catchError(err => {
+          console.log('Unable to calculate BoL Hash', err);
+          return err;
+        })
+      );
+  }
+
   /**
    * Method to upload file
    *

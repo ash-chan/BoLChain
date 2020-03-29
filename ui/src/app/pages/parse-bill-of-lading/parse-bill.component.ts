@@ -35,6 +35,7 @@ export class ParseBillComponent implements OnInit {
   /**
    * Flag for http request
    */
+  isRequesting = false;
 
   user: any = {};
   listOfFiles: any = [];
@@ -100,7 +101,7 @@ export class ParseBillComponent implements OnInit {
     let curUser = this.user.name;
 
     console.log(filePath, parserId, parserLabel);
-
+    this.isRequesting = true;
     let docDetails = this.billsApiService.uploadAndParse(parserId, filePath)
       .subscribe((parsersData: any) => {
           console.log(parsersData);
@@ -108,6 +109,7 @@ export class ParseBillComponent implements OnInit {
           this.router.navigate(['/overview'], { queryParams: { selectedTab: 'coins' } });
           this.billsApiService.storeIntoDB(curUser, parserId, parserLabel, docName, parsersData.id);
           console.log("storeIntoDB run")
+          this.isRequesting = false;
           return parsersData;
           }, error => {
           this.toastr.error('Please try again', 'Error');

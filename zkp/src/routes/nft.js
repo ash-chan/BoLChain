@@ -5,10 +5,10 @@ const router = Router();
 
 async function mint(req, res, next) {
   const { address } = req.headers;
-  const { tokenID, tokenURI } = req.body;
+  const { tokenID, tokenURI, uriDataIntegrity } = req.body;
 
   try {
-    await nfController.mintNFToken(tokenID, tokenURI, address);
+    await nfController.mintNFToken(tokenID, tokenURI, uriDataIntegrity, address);
     res.data = {
       message: 'NFT Mint Successful',
     };

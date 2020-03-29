@@ -93,6 +93,7 @@ export class BurnTokenComponent implements OnInit, AfterContentInit {
     this.tokenApiService.burnToken(
       selectedToken.token_id,
       selectedToken.token_uri,
+      selectedToken.uriDataIntegrity,
       selectedToken.salt,
       selectedToken.token_commitment,
       localStorage.getItem('secretkey'),

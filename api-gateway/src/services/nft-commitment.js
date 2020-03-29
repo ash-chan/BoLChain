@@ -48,6 +48,7 @@ export async function mintToken(req, res, next) {
     // add the new token commitment (and details of its hash preimage) to the token db.
     await db.addToken(req.user, {
       tokenId: req.body.tokenID,
+      uriDataIntegrity: req.body.uriDataIntegrity,
       tokenUri: req.body.uri,
       salt: data.S_A,
       commitment: data.z_A,
@@ -58,6 +59,7 @@ export async function mintToken(req, res, next) {
     // update public_token db: set is_shielded to 'true' to indicate that the token is 'in escrow' in the shield contract.
     await db.updateNFToken(req.user, {
       uri: req.body.uri,
+      uriDataIntegrity: req.body.uriDataIntegrity,
       tokenId: req.body.tokenID,
       shieldContractAddress: req.body.contractAddress,
       isShielded: true,
@@ -117,6 +119,7 @@ export async function transferToken(req, res, next) {
     await db.updateToken(req.user, {
       tokenId: req.body.A,
       tokenUri: req.body.uri,
+      uriDataIntegrity: req.body.uriDataIntegrity,
       salt: req.body.S_A,
       commitment: req.body.z_A,
       commitmentIndex: req.body.z_A_index,
@@ -131,6 +134,7 @@ export async function transferToken(req, res, next) {
     await whisperTransaction(req, {
       tokenUri: req.body.uri,
       tokenId: req.body.A,
+      uriDataIntegrity: req.body.uriDataIntegrity,
       salt: data.S_B,
       commitment: data.z_B,
       commitmentIndex: parseInt(data.z_B_index, 16),
@@ -189,6 +193,7 @@ export async function burnToken(req, res, next) {
     await db.updateToken(req.user, {
       tokenId: req.body.A,
       tokenUri: req.body.uri,
+      uriDataIntegrity: req.body.uriDataIntegrity,
       salt: req.body.S_A,
       commitment: req.body.z_A,
       commitmentIndex: req.body.z_A_index,
@@ -203,6 +208,7 @@ export async function burnToken(req, res, next) {
       await whisperTransaction(req, {
         uri: req.body.uri,
         tokenId: req.body.A,
+        uriDataIntegrity: req.body.uriDataIntegrity,
         shieldContractAddress: user.shield_contract_address,
         transferee: req.body.payTo, // this will change when payTo will be a user other than burner himself.
         transferor: req.user.name,
@@ -212,6 +218,7 @@ export async function burnToken(req, res, next) {
     } else {
       await db.addNFToken(req.user, {
         uri: req.body.uri,
+        uriDataIntegrity: req.body.uriDataIntegrity,
         tokenId: req.body.A,
         shieldContractAddress: user.shield_contract_address,
         transferor: req.user.name,

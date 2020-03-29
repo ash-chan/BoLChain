@@ -60,7 +60,7 @@ export const appRoutes: Routes = [
   { path: 'bill/upload', component: UploadBillComponent, canActivate: [AuthService] },
   { path: 'bill/parse', component: ParseBillComponent, canActivate: [AuthService] },
   { path: 'bill/store', component: StoreBillComponent, canActivate: [AuthService] },
-  { path: 'bill/view/:cid', component: ViewBillComponent, canActivate: [AuthService] },
+  { path: 'bill/view/:token_id', component: ViewBillComponent, canActivate: [AuthService] },
 
   { path: '**', redirectTo: '/login', pathMatch: 'full' },
   { path: '', redirectTo: '/login', pathMatch: 'full' },

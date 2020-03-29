@@ -34,6 +34,7 @@ export class MintPublicTokenComponent implements OnInit {
   curUser: any = {};
   user: any;
   selectedBill: any = '';
+  uriDataIntegrity = '123';
 
   constructor(
     private toastr: ToastrService,
@@ -55,7 +56,7 @@ export class MintPublicTokenComponent implements OnInit {
       this.isRequesting = true;
       this.tokenURI = this.selectedBill[0].hash;
       console.log(this.selectedBill[0]);
-      this.tokenApiService.mintNFToken(this.tokenURI).subscribe(tokenDetails => {
+      this.tokenApiService.mintNFToken(this.tokenURI, this.uriDataIntegrity).subscribe(tokenDetails => {
         this.isRequesting = false;
         this.toastr.success('Token Minted is Successfully');
         this.tokenURI = undefined;

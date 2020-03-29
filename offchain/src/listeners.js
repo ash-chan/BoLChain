@@ -31,6 +31,7 @@ async function addNFToken(data, userData) {
       },
       {
         uri: data.uri,
+        uriDataIntegrity: data.uriDataIntegrity,
         tokenId: data.tokenId,
         shieldContractAddress: data.shieldContractAddress,
         transferor: data.transferor,
@@ -80,6 +81,7 @@ async function addTokenCommitment(data, userData) {
       },
       {
         tokenUri: data.tokenUri,
+        uriDataIntegrity: data.uriDataIntegrity,
         tokenId: data.tokenId,
         salt: data.salt,
         commitment: data.commitment,

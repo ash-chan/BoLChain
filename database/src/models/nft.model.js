@@ -7,6 +7,10 @@ export default new Schema(
       trim: true,
       required: true,
     },
+    uriDataIntegrity: {
+      type: String,
+      required: true,
+    },
     token_id: {
       type: String,
       index: true,

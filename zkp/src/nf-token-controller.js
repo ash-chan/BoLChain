@@ -101,6 +101,12 @@ async function getNFTURI(tokenID, address) {
   return nfToken.tokenURI.call(tokenID);
 }
 
+async function getNFTuriDataIntegrity(tokenID, address) {
+  const nfTokenShield = shield[address] ? shield[address] : await NFTokenShield.deployed();
+  const nfToken = await NFTokenMetadata.at(await nfTokenShield.getNFToken.call());
+  return nfToken.uriDataIntegrity.call(tokenID);
+}
+
 /**
 return the number of tokens held by an account
 */
@@ -122,11 +128,11 @@ async function getOwner(tokenID, address) {
 /**
 create an ERC-721 Token in the account that calls the function
 */
-async function mintNFToken(tokenID, tokenURI, address) {
+async function mintNFToken(tokenID, tokenURI, uriDataIntegrity, address) {
   console.log('Minting NF Token', tokenID, address);
   const nfTokenShield = shield[address] ? shield[address] : await NFTokenShield.deployed();
   const nfToken = await NFTokenMetadata.at(await nfTokenShield.getNFToken.call());
-  return nfToken.mint(tokenID, tokenURI, {
+  return nfToken.mint(tokenID, tokenURI, uriDataIntegrity, {
     from: address,
     gas: 4000000,
   });
@@ -610,6 +616,7 @@ export default {
   getNFTSymbol,
   getNFTAddress,
   getNFTURI,
+  getNFTuriDataIntegrity,
   getBalance,
   getOwner,
   mintNFToken,

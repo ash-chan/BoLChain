@@ -48,14 +48,20 @@ contract NFTokenMetadata is
   mapping (uint256 => string) internal idToUri;
 
   /**
+   * Mapping from NFT ID to uri data hash
+   */
+  mapping (uint256 => string) internal idToHash;
+
+
+  /**
    * @dev Contract constructor.
    * @notice When implementing this contract don't forget to set nftName and nftSymbol.
    */
   constructor()
     public
   {
-    nftName = "TradeToken";
-    nftSymbol= "TrT";
+    nftName = "BoLToken";
+    nftSymbol= "BLT";
     supportedInterfaces[0x5b5e139f] = true; // ERC721Metadata
   }
 
@@ -99,6 +105,17 @@ contract NFTokenMetadata is
     return idToUri[_tokenId];
   }
 
+  function uriDataIntegrity(
+    uint256 _tokenId
+  )
+    external
+    view
+    validNFToken(_tokenId)
+    returns (string memory)
+  {
+    return idToHash[_tokenId];
+  }
+
   /**
    * added by Chaitanya-Konda
    * @dev Mints a new NFT.
@@ -108,7 +125,8 @@ contract NFTokenMetadata is
    */
   function mint(
     uint256 _tokenId,
-    string calldata _uri
+    string calldata _uri,
+    string calldata _uriDataIntegrity
   )
     external
   {
@@ -116,6 +134,7 @@ contract NFTokenMetadata is
     if (bytes(_uri).length != 0)
     {
       idToUri[_tokenId] = _uri;
+      idToHash[_tokenId] = _uriDataIntegrity;
     }
   }
 
@@ -173,6 +192,16 @@ contract NFTokenMetadata is
     validNFToken(_tokenId)
   {
     idToUri[_tokenId] = _uri;
+  }
+
+  function _seturiDataIntegrity(
+    uint256 _tokenId,
+    string memory _hash
+  )
+  internal
+  validNFToken(_tokenId)
+  {
+    idToHash[_tokenId] = _hash;
   }
 
 }

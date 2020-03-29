@@ -23,6 +23,7 @@ export async function mintNFToken(req, res, next) {
     tokenID:
       req.body.tokenID || `0x${(Math.random() * 1000000000000000000000000000000e46).toString(16)}`,
     tokenURI: req.body.tokenURI || '',
+    uriDataIntegrity: req.body.uriDataIntegrity || '',
   };
 
   try {
@@ -33,6 +34,7 @@ export async function mintNFToken(req, res, next) {
     await db.addNFToken(req.user, {
       uri: reqBody.tokenURI,
       tokenId: reqBody.tokenID,
+      uriDataIntegrity: reqBody.uriDataIntegrity,
       shieldContractAddress: user.selected_token_shield_contract,
       isMinted: true,
     });
@@ -78,6 +80,7 @@ export async function transferNFToken(req, res, next) {
 
     const nftToken = {
       uri: req.body.uri,
+      uriDataIntegrity: req.body.uriDataIntegrity,
       tokenId: req.body.tokenID,
       shieldContractAddress: req.body.contractAddress,
     };
@@ -134,6 +137,7 @@ export async function burnNFToken(req, res, next) {
 
     await db.updateNFToken(req.user, {
       uri: req.body.uri,
+      uriDataIntegrity: req.body.uriDataIntegrity,
       tokenId: req.body.tokenID,
       shieldContractAddress: req.body.contractAddress,
       isBurned: true,

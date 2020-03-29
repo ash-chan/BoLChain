@@ -30,6 +30,7 @@ export class TokenApiService {
 
     const body = {
       uri: token.uri,
+      uriDataIntegrity: token.uriDataIntegrity,
       tokenID: token.token_id,
       contractAddress: token.shield_contract_address
     };
@@ -42,18 +43,18 @@ export class TokenApiService {
   }
 
 
-/**
- * Method to initiate a HTTP request to transfer ERC-721 token commitments.
- *
- * @param A {String} Token Id
- * @param uri {String} Token name
- * @param S_A {String} Serial number of token
- * @param z_A {String} Token2 commitment
- * @param sk_A {String} Secret key of Alice
- * @param receiver_name {String} Rceiver name
- * @param z_A_index {String} Token commitment index
- */
-  spendToken(A: string, uri: string, S_A: string, z_A: string, sk_A: string, receiver_name: string, z_A_index: number) {
+  /**
+   * Method to initiate a HTTP request to transfer ERC-721 token commitments.
+   *
+   * @param A {String} Token Id
+   * @param uri {String} Token name
+   * @param S_A {String} Serial number of token
+   * @param z_A {String} Token2 commitment
+   * @param sk_A {String} Secret key of Alice
+   * @param receiver_name {String} Rceiver name
+   * @param z_A_index {String} Token commitment index
+   */
+  spendToken(A: string, uri: string, uriDataIntegrity: string, S_A: string, z_A: string, sk_A: string, receiver_name: string, z_A_index: number) {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
@@ -61,6 +62,7 @@ export class TokenApiService {
     const body = {
       A,
       uri,
+      uriDataIntegrity,
       S_A,
       sk_A,
       z_A,
@@ -84,13 +86,14 @@ export class TokenApiService {
    * @param Sk_A {String} Secret key of Alice
    * @param z_A_index {String} Token commitment index
    */
-  burnToken(A: string, uri: string, S_A: string, z_A: string, Sk_A: string, z_A_index: number, payTo: string) {
+  burnToken(A: string, uri: string, uriDataIntegrity: string, S_A: string, z_A: string, Sk_A: string, z_A_index: number, payTo: string) {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
     const body = {
       A,
       uri,
+      uriDataIntegrity,
       S_A,
       z_A,
       Sk_A,
@@ -103,12 +106,12 @@ export class TokenApiService {
       .pipe(tap(data => console.log(data)), catchError(this.handleError('burnToken', [])));
   }
 
-/**
- * Fetch ERC-721 token commitmnets
- *
- * @param pageNo {Number} Page number
- * @param limit {Number} Page limit
- */
+  /**
+   * Fetch ERC-721 token commitmnets
+   *
+   * @param pageNo {Number} Page number
+   * @param limit {Number} Page limit
+   */
   fetchTokens(pageNo: number, limit: number) {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -143,17 +146,17 @@ export class TokenApiService {
       .pipe(tap(data => console.log(data)), catchError(this.handleError('getUsers', [])));
   }
 
- /**
-  * Method to initiate a HTTP request to mint ERC-721 token.
-  *
-  * @param tokenURI {String} Token name
-  */
-  mintNFToken (tokenURI: string) {
+  /**
+   * Method to initiate a HTTP request to mint ERC-721 token.
+   *
+   * @param tokenURI {String} Token name
+   */
+  mintNFToken (tokenURI: string, uriDataIntegrity: string) {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
 
-    const body = { tokenURI };
+    const body = { tokenURI, uriDataIntegrity };
 
     const url = config.apiGateway.root + 'nft/mint';
 
@@ -172,24 +175,24 @@ export class TokenApiService {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
-    const body = { tokenID: nftToken.token_id, uri: nftToken.uri, receiver_name, contractAddress: nftToken.shield_contract_address};
+    const body = { tokenID: nftToken.token_id, uri: nftToken.uri, uriDataIntegrity: nftToken.uriDataIntegrity, receiver_name, contractAddress: nftToken.shield_contract_address};
     const url = config.apiGateway.root + 'nft/transfer';
     return this.http
       .post(url, body, httpOptions)
       .pipe(tap(data => console.log(`Token minted `)), catchError(this.handleError('mintNFToken', [])));
   }
 
- /**
-  * Method to initiate a HTTP request to burn ERC-721 token.
-  *
-  * @param nftToken {Object} Selected ERC-721 token
-  */
+  /**
+   * Method to initiate a HTTP request to burn ERC-721 token.
+   *
+   * @param nftToken {Object} Selected ERC-721 token
+   */
   burnNFToken (nftToken: any) {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
 
-    const body = { tokenID: nftToken.token_id, uri: nftToken.uri, contractAddress: nftToken.shield_contract_address};
+    const body = { tokenID: nftToken.token_id, uri: nftToken.uri, uriDataIntegrity: nftToken.uriDataIntegrity, contractAddress: nftToken.shield_contract_address};
     const url = config.apiGateway.root + 'nft/burn';
 
     return this.http
@@ -229,7 +232,7 @@ export class TokenApiService {
    * @param operation {String}
    * @param result {Object}
    */
- private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead

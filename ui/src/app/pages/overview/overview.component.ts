@@ -204,6 +204,7 @@ export class OverviewComponent extends Config implements OnInit {
             this.isPagination = true;
           }
           this.totalCollection = Promise.resolve(totalCount); // should be a promise for ngb pagination component
+          console.log(this.tokenTransactions);
         } else if (type === 'publictokens') {
           this.currentType = 'publictokens';
           this.publicTokenTransactions = data['data']['data'].length > 0 ? data['data']['data'] : [];
@@ -214,6 +215,7 @@ export class OverviewComponent extends Config implements OnInit {
             this.isPagination = true;
           }
           this.totalCollection = Promise.resolve(totalCount); // should be a promise for ngb pagination component
+          console.log(this.publicTokenTransactions);
         } else if (type === 'publiccoins') {
           this.currentType = 'publiccoins';
           this.publicCoinTransactions = data['data']['data'].length > 0 ? data['data']['data'] : [];

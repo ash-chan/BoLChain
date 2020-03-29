@@ -106,6 +106,7 @@ export class SpendTokenComponent implements OnInit, AfterContentInit {
     this.tokenApiService.spendToken(
       selectedToken.token_id,
       selectedToken.token_uri,
+      selectedToken.uriDataIntegrity,
       selectedToken.salt,
       selectedToken.token_commitment,
       localStorage.getItem('secretkey'),

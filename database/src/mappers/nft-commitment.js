@@ -1,5 +1,6 @@
 export default function({
   tokenUri,
+  uriDataIntegrity,
   tokenId,
   salt,
   commitment,
@@ -21,6 +22,7 @@ export default function({
 }) {
   return {
     token_uri: tokenUri,
+    uriDataIntegrity: uriDataIntegrity,
     token_id: tokenId,
     salt,
     token_commitment: commitment,

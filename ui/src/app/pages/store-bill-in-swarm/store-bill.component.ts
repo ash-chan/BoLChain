@@ -57,7 +57,7 @@ export class StoreBillComponent implements OnInit {
   selectedParser: Parser = {id: '', label: ''};
   selectedBill: Bill = {user: '', docName: '', docID: '', parserLabel: '', parserID: '', hash: ''}
   billDetails: any;
-  storageDetails = ['IPFS', 'Eth Swarm'];
+  storageDetails = ['IPFS', 'Eth Swarm', 'MFS'];
   selectedStorage = '';
 
   /**
