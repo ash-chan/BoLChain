@@ -13,6 +13,6 @@ motivated to contribute their own ideas and improvements.
 
 BoLChain was built on top of the current Nightfall implementation. It mainly adds UI elements and API services for BoL tokenization. A demonstration video of how it works can be found in the drive [here].(https://drive.google.com/drive/folders/1bnJ4d_BPl5NFT-gXKkxC20NAqaZdq359)
 >In order to deploy the tokenization microservices backend, run npm start in ebl-backend folder. \
->It will deploy a local NodeJS node on port 4000. \
+>It will deploy a local NodeJS node on port 4000 along with a MySQL node for persistent storage. \
 >The IPFS node used is an infura node on http://ipfs.infuro.io:5001 \
->The Swarm node used is the public swarm gateway. \
+>The Swarm node used is the public swarm gateway. 
