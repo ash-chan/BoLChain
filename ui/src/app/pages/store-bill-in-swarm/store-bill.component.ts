@@ -57,8 +57,8 @@ export class StoreBillComponent implements OnInit {
   selectedParser: Parser = {id: '', label: ''};
   selectedBill: Bill = {user: '', docName: '', docID: '', parserLabel: '', parserID: '', hash: ''}
   billDetails: any;
-  storageDetails = ['IPFS', 'Eth Swarm', 'MFS'];
-  selectedStorage = '';
+  storageDetails = ['Inter-Planetary File System (IPFS)', 'Mutable File System (MFS)', 'Ethereum Swarm'];
+  selectedStorage = null;
 
   /**
    * Flag for http request
@@ -145,16 +145,16 @@ export class StoreBillComponent implements OnInit {
 
 
     console.log(parserId, documentId);
-
-    let cidDetails = this.billsApiService.storeInIpfs(parserId, documentId)
-      .subscribe((data: any) => {
+    if (this.selectedStorage === 'Inter-Planetary File System (IPFS)') {
+      let cidDetails = this.billsApiService.storeInIpfs(parserId, documentId)
+        .subscribe((data: any) => {
             console.log(data.path);
             console.log(this.selectedStorage);
             let cidPath = data.path;
             this.billsApiService.updateDBwithHash(parserId, documentId, this.selectedStorage, cidPath)
               .subscribe(() => {
                 this.toastr.success('Document Added into IPFS Successfully');
-                this.router.navigate(['/overview'], { queryParams: { selectedTab: 'coins' } });
+                this.router.navigate(['/overview'], {queryParams: {selectedTab: 'coins'}});
                 console.log("storeBill run");
                 this.isRequesting = false;
                 return data;
@@ -164,20 +164,61 @@ export class StoreBillComponent implements OnInit {
             this.isRequesting = false;
           }
         );
-    console.log("cidDetails");
-    console.log(cidDetails);
-    // let hashDetails = this.billsApiService.hashJson(parserId, docId)
-    //   .subscribe((hashData: any) => {
-    //       console.log(hashData);
-    //       this.toastr.success('Document Uploaded into Swam Successfully');
-    //       this.router.navigate(['/overview'], { queryParams: { selectedTab: 'coins' } });
-    //       this.billsApiService.updateDBwithHash(parserId, docId, hashData);
-    //       console.log("updateDBwithHash run");
-    //       return hashData;
-    //     }, error => {
-    //       this.toastr.error('Please try again', 'Error');
-    //     }
-    //   );
+      // console.log("cidDetails");
+      // console.log(cidDetails);
+      // let hashDetails = this.billsApiService.hashJson(parserId, docId)
+      //   .subscribe((hashData: any) => {
+      //       console.log(hashData);
+      //       this.toastr.success('Document Uploaded into Swam Successfully');
+      //       this.router.navigate(['/overview'], { queryParams: { selectedTab: 'coins' } });
+      //       this.billsApiService.updateDBwithHash(parserId, docId, hashData);
+      //       console.log("updateDBwithHash run");
+      //       return hashData;
+      //     }, error => {
+      //       this.toastr.error('Please try again', 'Error');
+      //     }
+      //   );
+    } else if (this.selectedStorage === 'Ethereum Swarm') {
+      let cidDetails = this.billsApiService.storeInSwarm(parserId, documentId)
+        .subscribe((data: any) => {
+            console.log(data.path);
+            console.log(this.selectedStorage);
+            let cidPath = data.path;
+            this.billsApiService.updateDBwithHash(parserId, documentId, this.selectedStorage, cidPath)
+              .subscribe(() => {
+                this.toastr.success('Document Added into Swarm Successfully');
+                this.router.navigate(['/overview'], {queryParams: {selectedTab: 'coins'}});
+                console.log("storeBill run");
+                this.isRequesting = false;
+                return data;
+              });
+          }, error => {
+            this.toastr.error('Please try again', 'Error');
+            this.isRequesting = false;
+          }
+        );
+      console.log("cidDetails");
+      console.log(cidDetails);
+    } else {
+      let cidDetails = this.billsApiService.storeInMfs(parserId, documentId)
+        .subscribe((data: any) => {
+            console.log(data.path);
+            console.log(this.selectedStorage);
+            let cidPath = data.path;
+            this.billsApiService.updateDBwithHash(parserId, documentId, this.selectedStorage, cidPath)
+              .subscribe(() => {
+                this.toastr.success('Document Added into MFS Successfully');
+                this.router.navigate(['/overview'], {queryParams: {selectedTab: 'coins'}});
+                console.log("storeBill run");
+                this.isRequesting = false;
+                return data;
+              });
+          }, error => {
+            this.toastr.error('Please try again', 'Error');
+            this.isRequesting = false;
+          }
+        );
+    }
 
   }
   // getParsedJson() {

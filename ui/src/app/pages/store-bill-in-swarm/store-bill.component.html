@@ -21,20 +21,22 @@
           <div class="box-header">
             <div class="row">
               <div class="col-sm-6">
-                <h3 class="">Select Parsed Bill to Tokenize</h3>
+                <h3 class="">Select Parsed JSON to Store</h3>
               </div>
               <div class="col-sm">
                 <ng-select
-                    #select
+
                     [items]="storageDetails"
 
 
 
-                    [multiple]="false"
+
                     [(ngModel)]="selectedStorage"
-                    placeholder="Please select storage method"
-                    style="width:70%;"
+
+                    placeholder="Please select Storage"
+                    style="width:50%;"
                 >
+
 
                 </ng-select>
               </div>

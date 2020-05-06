@@ -62,14 +62,14 @@ export class ViewBillComponent implements OnInit {
       .subscribe(curNFT => {
         this.currentNFT = curNFT;
         console.log(this.currentNFT);
-        this.billsApiService.calculateuriDataIntegrity(cidToView)
+        this.billsApiService.calculateUriDataIntegrity(cidToView)
           .subscribe(uriDataIntegrity => {
             this.calculateduriDataIntegrity = uriDataIntegrity;
             console.log(this.calculateduriDataIntegrity);
             if (this.calculateduriDataIntegrity === this.currentNFT.data.uriDataIntegrity) {
-              this.toastr.success('Verified Integrity of JSON stored in URI ');
+              this.toastr.success('Verified Integrity of JSON stored in URI');
             } else {
-              this.toastr.success('Verified Integrity of JSON stored in URI ');
+              this.toastr.error('Unable to verify integrity of JSON stored in URI');
             }
           });
 
@@ -92,7 +92,7 @@ export class ViewBillComponent implements OnInit {
     //   );
   }
 
-  calculateuriDataIntegrity(billString: string) {
+  calculateUriDataIntegrity(billString: string) {
 
 
   }

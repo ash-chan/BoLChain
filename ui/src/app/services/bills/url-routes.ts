@@ -1,0 +1,15 @@
+export const UPLOAD_URL = 'http://localhost:4000/upload';
+export const LIST_FILES_URL = 'http://localhost:4000/list-files';
+export const LIST_PARSERS_URL = 'http://localhost:4000/docparser/list-parsers';
+export const UPLOAD_AND_PARSE_URL = 'http://localhost:4000/docparser/upload-and-parse';
+export const CREATE_TABLE_URL = 'http://localhost:4000/storage/create-table';
+export const ADD_DOC_INTO_DB_URL = 'http://localhost:4000/storage/add-entry';
+export const SHOW_DOCS_URL = 'http://localhost:4000/storage/show-docs';
+export const GET_PARSED_JSON_URL = 'http://localhost:4000/docparser/get-parsed-json';
+export const HASH_JSON_URL = 'http://localhost:4000/swarm/hash-json';
+export const UPDATE_DB_WITH_HASH_URL = 'http://localhost:4000/storage/update-with-hash';
+export const STORE_IN_IPFS_URL = 'http://localhost:4000/ipfs/add-json';
+export const STORE_IN_SWARM_URL = 'http://localhost:4000/swarm/store-in-swarm';
+export const STORE_IN_MFS_URL = 'http://localhost:4000/ipfs/mfs/add-json';
+export const RETRIEVE_FROM_IPFS_URL = 'http://localhost:4000/ipfs/show-json';
+export const CALCULATE_JSON_HASH_URL = 'http://localhost:4000/ipfs/sha256';

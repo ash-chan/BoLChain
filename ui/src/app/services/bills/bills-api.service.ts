@@ -5,19 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { config } from '../../shared/config';
 import {FileUploader} from 'ng2-file-upload';
 
-const UPLOAD_URL = 'http://localhost:4000/upload';
-const LIST_FILES_URL = 'http://localhost:4000/list-files';
-const LIST_PARSERS_URL = 'http://localhost:4000/docparser/list-parsers';
-const UPLOAD_AND_PARSE_URL = 'http://localhost:4000/docparser/upload-and-parse';
-const CREATE_TABLE_URL = 'http://localhost:4000/storage/create-table';
-const ADD_DOC_INTO_DB_URL = 'http://localhost:4000/storage/add-entry';
-const SHOW_DOCS_URL = 'http://localhost:4000/storage/show-docs';
-const GET_PARSED_JSON_URL = 'http://localhost:4000/docparser/get-parsed-json';
-const HASH_JSON_URL = 'http://localhost:4000/swarm/hash-json';
-const UPDATE_DB_WITH_HASH_URL = 'http://localhost:4000/storage/update-with-hash';
-const STORE_IN_IPFS_URL = 'http://localhost:4000/ipfs/add-json';
-const RETRIEVE_FROM_IPFS_URL = 'http://localhost:4000/ipfs/show-json';
-const CALCULATE_JSON_HASH_URL = 'http://localhost:4000/ipfs/sha256';
+import * as URL from './url-routes';
 
 /**
  * Token API services, which accomodated all ERC-721 related methods.
@@ -30,7 +18,7 @@ export class BillsApiService {
   constructor(private http: HttpClient) {}
 
   public uploader: FileUploader = new FileUploader({
-    url: UPLOAD_URL,
+    url: URL.UPLOAD_URL,
     itemAlias: 'doc'
   });
 
@@ -43,7 +31,7 @@ export class BillsApiService {
       formData.append("uploads[]", files[i], files[i]['name']);
     }
     console.log('form data variable :   '+ formData.toString());
-    let uploadData = this.http.post(UPLOAD_URL, formData).pipe(tap(data => {
+    let uploadData = this.http.post(URL.UPLOAD_URL, formData).pipe(tap(data => {
         console.log(data);
       }),
       catchError(err => {
@@ -58,7 +46,7 @@ export class BillsApiService {
   }
 
   listFiles() {
-    let filesData = this.http.get(LIST_FILES_URL)
+    let filesData = this.http.get(URL.LIST_FILES_URL)
       .pipe(tap(data => {
           console.log(data);
         }),
@@ -71,7 +59,7 @@ export class BillsApiService {
   }
 
   listParsers() {
-    let parsersData = this.http.get(LIST_PARSERS_URL)
+    let parsersData = this.http.get(URL.LIST_PARSERS_URL)
       .pipe(tap(data => {
         console.log(data);
       }),
@@ -87,28 +75,28 @@ export class BillsApiService {
   uploadAndParse(parserId: string, filePath: string) {
     let encoded_filePath = encodeURIComponent(filePath);
     console.log(encoded_filePath);
-    let jsonAfterParsing = this.http.get(UPLOAD_AND_PARSE_URL + '/' + parserId + '/' + encoded_filePath);
+    let jsonAfterParsing = this.http.get(URL.UPLOAD_AND_PARSE_URL + '/' + parserId + '/' + encoded_filePath);
     console.log(jsonAfterParsing);
     return jsonAfterParsing;
   }
 
   initTable() {
-    let initTableResp = this.http.get(CREATE_TABLE_URL);
+    let initTableResp = this.http.get(URL.CREATE_TABLE_URL);
     console.log("table created")
     return initTableResp;
   }
 
   storeIntoDB(curUser: string, parserID: string, parserLabel: string, docName: string, docID: string) {
-    let initTableResp = this.http.get(CREATE_TABLE_URL).toPromise().then(data =>{
+    let initTableResp = this.http.get(URL.CREATE_TABLE_URL).toPromise().then(data =>{
       let encodedParserLabel = encodeURIComponent(parserLabel);
       console.log(encodedParserLabel);
       let encodedDocName = encodeURIComponent(docName);
       console.log(encodedDocName);
 
-      console.log(ADD_DOC_INTO_DB_URL + '/' + curUser + '/' + encodedDocName + '/' + docID + '/'
+      console.log(URL.ADD_DOC_INTO_DB_URL + '/' + curUser + '/' + encodedDocName + '/' + docID + '/'
         + encodedParserLabel + '/' + parserID + '/' + 'fakejson' + '/');
 
-      let storeTestResult = this.http.get(ADD_DOC_INTO_DB_URL + '/' + curUser + '/'
+      let storeTestResult = this.http.get(URL.ADD_DOC_INTO_DB_URL + '/' + curUser + '/'
         + encodedDocName + '/' + docID + '/' + encodedParserLabel + '/' + parserID + '/'
         + 'fakejson' + '/').subscribe(() => {
           console.log("storeIntoDB done");
@@ -128,7 +116,7 @@ export class BillsApiService {
 
 
   getUserBills(user: string) {
-    return this.http.get(SHOW_DOCS_URL + '/' + user)
+    return this.http.get(URL.SHOW_DOCS_URL + '/' + user)
       .pipe(tap(data => {
         console.log(data);
       }),
@@ -140,7 +128,7 @@ export class BillsApiService {
   }
 
   getParsedJson(parserId: string, documentId: string) {
-    return this.http.get(GET_PARSED_JSON_URL + '/' + parserId + '/' + documentId)
+    return this.http.get(URL.GET_PARSED_JSON_URL + '/' + parserId + '/' + documentId)
       .pipe(tap(data => {
           console.log(data);
         }),
@@ -153,7 +141,7 @@ export class BillsApiService {
 
   // Return the hash
   hashJson(parserId: string, documentId: string) {
-    return this.http.get(HASH_JSON_URL + '/' + parserId + '/' + documentId)
+    return this.http.get(URL.HASH_JSON_URL + '/' + parserId + '/' + documentId)
       .pipe(tap(data => {
           console.log(data);
         }),
@@ -165,7 +153,7 @@ export class BillsApiService {
   }
 
   updateDBwithHash(parserId: string, documentId: string, storageMethod: string, hash: string) {
-    return this.http.get(UPDATE_DB_WITH_HASH_URL + '/' + parserId + '/' + documentId + '/' + storageMethod + '/' + hash)
+    return this.http.get(URL.UPDATE_DB_WITH_HASH_URL + '/' + parserId + '/' + documentId + '/' + storageMethod + '/' + hash)
       .pipe(tap(data => {
         console.log("updateDBWithHash done");
       }),
@@ -176,11 +164,22 @@ export class BillsApiService {
       );
   }
 
-  storeInIpfs(parserId: string, documentId: string) {
-    return this.http.get(STORE_IN_IPFS_URL + '/' + parserId + '/' + documentId)
+  storeInSwarm(parserId: string, documentId: string) {
+    return this.http.get(URL.STORE_IN_SWARM_URL + '/' + parserId + '/' + documentId)
       .pipe(tap(data => {
-        console.log("storeInIpfs done");
+        console.log("storeInSwarm done");
       }),
+        catchError(err => {
+          console.log('Unable to store into Swarm', err);
+          return err;
+        })
+      );
+  }
+  storeInIpfs(parserId: string, documentId: string) {
+    return this.http.get(URL.STORE_IN_IPFS_URL + '/' + parserId + '/' + documentId)
+      .pipe(tap(data => {
+          console.log("storeInIpfs done");
+        }),
         catchError(err => {
           console.log('Unable to store into IPFS', err);
           return err;
@@ -189,12 +188,24 @@ export class BillsApiService {
   }
 
   retrieveFromIpfs(cid: string) {
-    return this.http.get(RETRIEVE_FROM_IPFS_URL + '/' + cid)
+    return this.http.get(URL.RETRIEVE_FROM_IPFS_URL + '/' + cid)
       .pipe(tap(data => {
         console.log("retrieveFromIpfs done");
       }),
         catchError(err => {
           console.log('Unable to store into IPFS', err);
+          return err;
+        })
+      );
+  }
+
+  storeInMfs(parserId: string, documentId: string) {
+    return this.http.get(URL.STORE_IN_MFS_URL + '/' + parserId + '/' + documentId)
+      .pipe(tap(data => {
+          console.log("storeInIpfs done");
+        }),
+        catchError(err => {
+          console.log('Unable to store into MFS', err);
           return err;
         })
       );
@@ -237,12 +248,12 @@ export class BillsApiService {
     //   });
   }
 
-  calculateuriDataIntegrity(cidToView: string) {
-    // this.retrieveFromIpfs(cidToView)
-    //   .subscribe(bolJson => {
-    //     let billString = JSON.stringify(bolJson);
-      // });
-    return this.http.get(CALCULATE_JSON_HASH_URL + '/' + cidToView)
+  calculateUriDataIntegrity(cidToView: string) {
+    this.retrieveFromIpfs(cidToView)
+      .subscribe(bolJson => {
+        let billString = JSON.stringify(bolJson);
+      });
+    return this.http.get(URL.CALCULATE_JSON_HASH_URL + '/' + cidToView)
       .pipe(tap(data => {
           console.log("calculateuriDataIntegrity done");
         }),
@@ -265,7 +276,7 @@ export class BillsApiService {
       console.log('Uploaded File Details:', item);
       // this.toastr.success('File successfully uploaded!');
       return this.http
-        .get(UPLOAD_URL)
+        .get(URL.UPLOAD_URL)
         .map(response => response);
     };
     // const httpOptions = {
