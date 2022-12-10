@@ -26,7 +26,7 @@
     "bignumber.js": "^8.0.2",
     "body-parser": "^1.19.0",
     "ethereumjs-abi": "^0.6.6",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "fs": "0.0.1-security",
     "hex-to-binary": "^1.0.1",
     "inquirer": "^6.2.2",
