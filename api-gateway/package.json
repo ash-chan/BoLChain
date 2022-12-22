@@ -27,7 +27,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.2",
     "express-http-proxy": "^1.1.0",
-    "jsonwebtoken": "^8.4.0",
+    "jsonwebtoken": "^9.0.0",
     "nyc": "^14.1.1",
     "request": "^2.88.0",
     "safe-buffer": "^5.1.2",
